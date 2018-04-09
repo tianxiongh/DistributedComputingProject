@@ -35,6 +35,7 @@ prefix = 'BA_n' + str(n) + '_m' + str(m) + '_mu' + str(p) + '_t' + str(nn) + '_m
 G = nx.barabasi_albert_graph(n,m)
 adj = G.adj # adjacency list
 nx.draw(G)
+plt.draw()
 plt.show()
 
 # network meme matrix: initialization
