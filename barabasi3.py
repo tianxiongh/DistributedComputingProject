@@ -22,11 +22,11 @@ track_memes_after = 100 # only save memes after this step
 max_memes_track = 1000 # number of memes to track after track_memes_after
 #================================ 
 print("******** PARAMS *********")
-print('Network: BA: n:{0}, m:{1}, memory:{2}'.format(n, m, memory_size))
-print('Introduction rate: {0}'.format(p))
-print('Total time steps in this simulation: {0}'.format(nn))
-print('Track memes after {0} steps'.format(track_memes_after))
-print('Max memes to track: {0}'.format(max_memes_track))
+print(('Network: BA: n:{0}, m:{1}, memory:{2}'.format(n, m, memory_size)))
+print(('Introduction rate: {0}'.format(p)))
+print(('Total time steps in this simulation: {0}'.format(nn)))
+print(('Track memes after {0} steps'.format(track_memes_after)))
+print(('Max memes to track: {0}'.format(max_memes_track)))
 print("*************************")
 
 prefix = 'BA_n' + str(n) + '_m' + str(m) + '_mu' + str(p) + '_t' + str(nn) + '_memory'+str(memory_size)+'_'
@@ -55,7 +55,7 @@ for counter in range(nn+1):
 
 	counter = counter + 1
 	if(counter >= progress[0]):
-		print("{0}% done. Elapsed time: {1}".format(int(100 * progress[0]/nn), time.time()-t1))
+		print(("{0}% done. Elapsed time: {1}".format(int(100 * progress[0]/nn), time.time()-t1)))
 		progress.popleft()
 	select_one_node = random.randint(0,n-1)
 	probability_new_idea = random.uniform(0,1) # mu
@@ -98,26 +98,26 @@ for counter in range(nn+1):
 			memes[meme_chosen] = {'start':counter, 'end':1, \
 								'number_selected':1}
 		if meme_count_after_saturation + 1 == max_memes_track:
-			print("Maximum no. of requested memes achieved at timestep: ", counter)
+			print(("Maximum no. of requested memes achieved at timestep: ", counter))
 	
 endtime = time.time()
-print("Done! Total time in seconds: ", (endtime - starttime))	
+print(("Done! Total time in seconds: ", (endtime - starttime)))	
 # ==============================================================
 # meme statistics
 # ==============================================================
-print("\nLen of memes set before final update: ", len(memes))
+print(("\nLen of memes set before final update: ", len(memes)))
 for m in list(memes.keys()):
 	if memes[m]['start'] < track_memes_after:
 		del memes[m]
-print(len(memes), "out of", max_memes_track, "requested memes were born after step", track_memes_after)
-print("Size of all memes (in MBs):", sys.getsizeof(memes)/float(1024**2))
+print((len(memes), "out of", max_memes_track, "requested memes were born after step", track_memes_after))
+print(("Size of all memes (in MBs):", sys.getsizeof(memes)/float(1024**2)))
 print("Saving meme statistics..")
 fitness = []
 number_selected = []
-for meme, val in memes.items():
+for meme, val in list(memes.items()):
 	fitness.append(meme)
 	number_selected.append(val['number_selected'])
 memedata = pd.DataFrame(np.asarray([fitness, number_selected]).transpose(), columns=['Fitness', 'number_selected'])
 memedata.to_csv(prefix + "meme.csv", index=False)
-print("Max meme size:", max_meme_size)
+print(("Max meme size:", max_meme_size))
 print("Meme stats saved!")
